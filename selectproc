@@ -1,0 +1,43 @@
+ALTER PROC [dbo].[Product_SelectPagination]
+		@PageIndex int
+		,@PageSize int
+		,@ProductType int
+
+AS 
+/*TEST CODE!
+
+Declare 
+    @PageIndex int = 0
+		,@PageSize int = 3
+		,@ProductType int = 1
+
+Execute dbo.Product_SelectPagination
+		@PageIndex
+		,@PageSize
+		,@ProductType
+
+*/
+
+
+
+BEGIN 
+
+	DECLARE @Offset int = @PageIndex*@PageSize
+
+SELECT [Id]
+      ,[Title]
+      ,[Description]
+      ,[BasePrice]
+      ,[ProductType]
+      ,[MainImage]
+      ,[SecondaryImage]
+      ,[Video]
+	    ,[TotalCount] = COUNT(1) OVER()
+  FROM [dbo].[Product]as P
+  WHERE p.ProductType = @ProductType
+  AND p.IsDeleted = 0
+  ORDER BY P.Title
+  OFFSET @Offset ROWS
+  FETCH NEXT @PageSize ROWS ONLY;
+
+END

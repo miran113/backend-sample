@@ -1,0 +1,22 @@
+ALTER proc [dbo].[Product_Delete] 
+      @Id int
+      
+AS
+/*
+----Test Code-----
+Declare @Id int = 100
+
+SELECT *
+FROM dbo.Product
+Where Id = @Id;
+
+
+EXEC Product_Delete @Id
+
+
+*/
+
+BEGIN 
+	  DELETE FROM Product
+    WHERE Id = @Id
+END 

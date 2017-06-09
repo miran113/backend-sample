@@ -1,0 +1,44 @@
+ALTER PROC [dbo].[Product_SearchProduct]
+		@SearchText nvarchar(65)
+		,@PageIndex int
+		,@PageSize int
+		,@Id int
+AS 
+
+/* TEST CODE!
+
+DECLARE  
+     @SearchText NVARCHAR(15) = '%' + 'c' + '%'
+		,@PageIndex int = 0
+		,@PageSize int = 2
+		,@Id int = 1
+
+EXEC	dbo.Product_SearchProduct
+		 @SearchText
+		,@PageIndex
+		,@PageSize 
+		,@Id
+
+*/
+
+BEGIN 
+	DECLARE @SearchText2 nvarchar(65) = '%'+ @SearchText +'%'
+	DECLARE @Offset int = @PageIndex * @PageSize
+
+SELECT  [Id]
+      ,[Title]
+      ,[Description]
+      ,[BasePrice]
+      ,[ProductType]
+      ,[MainImage]
+      ,[SecondaryImage]
+      ,[Video]
+	    ,[TotalCount] = COUNT(1) OVER()
+  FROM [dbo].[Product] as P
+  WHERE p.ProductType = @ProductType
+  AND p.Title LIKE @SearchText2
+  ORDER BY P.Title
+  OFFSET @Offset ROWS
+  FETCH NEXT @PageSize ROWS ONLY;
+
+END

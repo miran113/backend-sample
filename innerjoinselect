@@ -1,0 +1,49 @@
+ALTER proc [dbo].[ProductInfluencer_Select]
+		@ProductId int
+		,@PageIndex int
+		,@PageSize int
+
+AS
+
+/* TEST CODE!
+
+DECLARE 
+    @ProductId int = 27
+		,@PageIndex int =0
+		,@PageSize int = 4
+
+EXECUTE dbo.ProductInfluencer_Select
+		@ProductId
+		,@PageIndex 
+		,@PageSize 
+
+SELECT * FROM dbo.ProductInfluencer
+*/
+
+BEGIN 
+	
+	Declare @offset int = @PageIndex * @PageSize;
+	SELECT 
+		   [AccountsId]
+		   ,[AvatarUrl]
+		   ,[Handle]
+		   ,[FirstName]
+		   ,[MiddleInitial]
+		   ,[LastName]
+		   ,[GenderId]
+		   ,[DOB]
+		   ,[Highlight]
+		   ,[Bio]
+		   ,[TotalCount]= COUNT(1) OVER()
+		   
+
+	FROM dbo.Accounts AS a
+	INNER JOIN dbo.ProductInfluencer AS p
+	on a.UserId = p.AccountsId
+	WHERE p.ProductId = @ProductId
+	ORDER BY FirstName
+	
+	OFFSET @offset ROWS
+	FETCH NEXT @PageSize ROWS ONLY
+
+END

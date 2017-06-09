@@ -1,0 +1,52 @@
+ALTER PROC [dbo].[Product_Update] 
+    @Id int
+    ,@Title nvarchar(50)
+    ,@Description nvarchar(500)
+    ,@BasePrice decimal(18,4)
+    ,@ModifiedBy nvarchar(128)
+    ,@ProductType int = 1
+    ,@MainImage nvarchar(255) = null
+    ,@SecondaryImage nvarchar(255) = null
+    ,@Video nvarchar(255) = null
+    
+AS
+
+/*
+DECLARE 
+  @Id int = 20;
+
+DECLARE 
+  @Title nvarchar(50) = 'Lolo'
+  ,@Description nvarchar(100) = 'TttOrganic'
+  ,@BasePrice decimal(18, 4) = 50
+  ,@ModifiedBy nvarchar(128) = 'Frodo'
+  ,@ProductType int = 1
+
+ EXEC dbo.Product_Update_V3
+   @Id
+   ,@Title
+   ,@Description
+   ,@BasePrice
+   ,@ModifiedBy
+   ,@ProductType 
+
+
+  SELECT *
+  FROM Product
+  WHERE Id = @Id
+*/
+
+BEGIN
+  DECLARE @ModifiedDate datetime2(7) = GETUTCDATE()
+  UPDATE [dbo].[Product]
+     SET 
+      [Title] = @Title
+      ,[Description] = @Description
+      ,[BasePrice] = @BasePrice
+      ,[ModifiedBy] = @ModifiedBy
+      ,[ModifiedDate] = @ModifiedDate
+      ,[ProductType] = @ProductType
+  WHERE Id =@Id
+
+END
+

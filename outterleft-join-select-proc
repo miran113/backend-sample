@@ -13,7 +13,7 @@ DECLARE @ProductId int = 27
 		,@PageIndex int =0
 		,@PageSize int = 4
 
-EXECUTE dbo.ProductInfluencer_SelectByProductIdPag
+EXECUTE dbo.ProductInfluencer_SelectByProductIdPagV2
 		@ProductId
 		,@PageIndex 
 		,@PageSize 

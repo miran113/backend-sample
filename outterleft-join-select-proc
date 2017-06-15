@@ -9,14 +9,18 @@ AS
 
 /* TEST CODE!
 
-DECLARE @ProductId int = 27
-		,@PageIndex int =0
-		,@PageSize int = 4
+DECLARE		@ProductId int = 27
+		,@PageIndex int = 0
+		,@PageSize int = 6
+		,@Existing bit = 1
+		,@AccountModifier int = 2
 
 EXECUTE dbo.ProductInfluencer_SelectByProductIdPagV2
 		@ProductId
 		,@PageIndex 
 		,@PageSize 
+		,@Existing 
+		,@AccountModifier
 
 SELECT * FROM dbo.ProductInfluencer
 */
@@ -27,6 +31,14 @@ BEGIN
 	SELECT 
 		   [AccountsId]
 		   ,[AvatarUrl]
+		   ,[Handle]
+		   ,[FirstName]
+		   ,[MiddleInitial]
+		   ,[LastName]
+		   ,[GenderId]
+		   ,[DOB]
+		   ,[Highlight]
+		   ,[Bio]
 		   ,[TotalCount]= COUNT(1) OVER()
 		   
 
